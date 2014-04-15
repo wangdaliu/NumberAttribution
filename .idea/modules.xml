@@ -3,7 +3,6 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/AttributionInfo/AttributionInfo.iml" filepath="$PROJECT_DIR$/AttributionInfo/AttributionInfo.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/NumberAttribution.iml" filepath="$PROJECT_DIR$/.idea/NumberAttribution.iml" />
     </modules>
   </component>
 </project>
