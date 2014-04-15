@@ -1,0 +1,10 @@
+<component name="libraryTable">
+  <library name="AttributionInfo">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/AttributionInfo/libs/AttributionInfo.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+    <jarDirectory url="jar://$PROJECT_DIR$/AttributionInfo/libs/AttributionInfo.jar!/" recursive="false" />
+  </library>
+</component>
