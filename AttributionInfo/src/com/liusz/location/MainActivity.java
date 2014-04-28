@@ -30,7 +30,7 @@ public class MainActivity extends Activity {
 
             public void onClick(View v) {
                 number = editText.getText().toString();
-                String location = AttributionManager.getAttributionInfo(number, getApplicationContext());
+                String location = AttributionManager.getAttributionInfo(number, MainActivity.this);
                 txtView.setText(TextUtils.isEmpty(location) ? "null" : location);
             }
         });
