@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="snail_attribution">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/AttributionInfo/libs/snail_attribution.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
