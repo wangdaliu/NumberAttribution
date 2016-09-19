@@ -1,0 +1,94 @@
+apply plugin: 'com.android.application'
+
+def computeVersionCode = { ->
+    def stdout = new ByteArrayOutputStream()
+    exec {
+        commandLine 'git', 'rev-list', 'HEAD', '--count'
+        standardOutput = stdout
+    }
+    return stdout.toString().trim().toInteger();
+}
+
+android {
+    compileSdkVersion 23
+    buildToolsVersion "23.0.3"
+    defaultConfig {
+        applicationId "com.attribution.android"
+        minSdkVersion 14
+        targetSdkVersion 21
+        versionCode computeVersionCode()
+        versionName "1.0"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+    signingConfigs {
+        debugConfig {
+            storeFile file("debug.jks")
+            storePassword "android"
+            keyAlias "com.attribution.android"
+            keyPassword "android"
+        }
+
+        releaseConfig {
+            storeFile file("release.jks")
+            storePassword "android"
+            keyAlias "com.attribution.android"
+            keyPassword "android"
+        }
+    }
+
+    buildTypes {
+        debug {
+            debuggable true
+            signingConfig signingConfigs.debugConfig
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+
+        release {
+            debuggable false
+            signingConfig signingConfigs.releaseConfig
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    lintOptions {
+        abortOnError false
+    }
+}
+
+dependencies {
+    compile fileTree(include: ['*.jar'], dir: 'libs')
+    compile 'com.android.support:appcompat-v7:23.3.0'
+
+    compile(name: 'WandoujiaSDK', ext: 'aar')
+    compile 'com.google.code.gson:gson:2.3'
+    compile 'com.squareup.okhttp:okhttp:2.2.0'
+    compile 'com.squareup.okhttp:okhttp-urlconnection:2.2.0'
+    compile 'com.squareup:otto:1.3.6'
+    compile 'com.squareup.picasso:picasso:2.4.0'
+}
+
+
+task copyNativeLibs(type: Copy) {
+    from(new File('libs')) { include '**/*.so' }
+    into new File(buildDir, 'native-libs')
+}
+
+
+tasks.withType(JavaCompile) {
+    compileTask -> compileTask.dependsOn copyNativeLibs
+}
+
+clean.dependsOn 'cleanCopyNativeLibs'
+
+tasks.withType(com.android.build.gradle.tasks.PackageApplication) { pkgTask ->
+    pkgTask.jniFolders = new HashSet<File>()
+    pkgTask.jniFolders.add(new File(buildDir, 'native-libs'))
+}
+
+tasks.withType(JavaCompile) {
+    options.encoding = "UTF-8"
+}
+
+

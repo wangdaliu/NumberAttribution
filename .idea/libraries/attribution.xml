@@ -1,7 +1,7 @@
 <component name="libraryTable">
   <library name="attribution">
     <CLASSES>
-      <root url="jar://$PROJECT_DIR$/AttributionInfo/libs/attribution.jar!/" />
+      <root url="jar://$PROJECT_DIR$/app/libs/attribution.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />
