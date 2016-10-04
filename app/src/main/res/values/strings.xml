@@ -3,4 +3,7 @@
     <string name="input">请输入您要查询的手机号码</string>
     <string name="sms">短信</string>
     <string name="call">电话</string>
+    <string name="add_to_contact">添加到通讯录</string>
+    <string name="select_contact">联系人选择</string>
+    <string name="select_calllog">通话记录选择</string>
 </resources>

@@ -19,19 +19,13 @@
 
 
     <item
-        android:id="@+id/call"
-        android:title="@string/call"
+        android:id="@+id/select_contact"
+        android:title="@string/select_contact"
         app:showAsAction="never"/>
 
     <item
-        android:id="@+id/sms"
-        android:title="@string/sms"
+        android:id="@+id/select_calllog"
+        android:title="@string/select_calllog"
         app:showAsAction="never"/>
-
-    <item
-        android:id="@+id/add_to_contact"
-        android:title="@string/add_to_contact"
-        app:showAsAction="never"/>
-
 
 </menu>

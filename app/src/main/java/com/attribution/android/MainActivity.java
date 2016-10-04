@@ -5,6 +5,8 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -38,21 +40,7 @@ public class MainActivity extends BaseActivity {
         btn.setOnClickListener(new View.OnClickListener() {
 
             public void onClick(View v) {
-                number = mEditText.getText().toString();
-                String location = AttributionManager.getAttributionInfo(number, MainActivity.this);
-
-                if (TextUtils.isEmpty(location)) {
-                    Toast.makeText(MainActivity.this, "号码错误", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-
-                String operator = validate(number);
-                Intent intent = new Intent(MainActivity.this, DetailActivity.class);
-                intent.putExtra("location", location);
-                intent.putExtra("operator", operator);
-                intent.putExtra("number", number);
-                startActivity(intent);
-                startActivityAnimation(MainActivity.this);
+                execute();
             }
         });
 
@@ -94,6 +82,24 @@ public class MainActivity extends BaseActivity {
         }.execute();
     }
 
+    private void execute() {
+        number = mEditText.getText().toString();
+        String location = AttributionManager.getAttributionInfo(number, MainActivity.this);
+
+        if (TextUtils.isEmpty(location)) {
+            Toast.makeText(MainActivity.this, "号码错误", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        String operator = validate(number);
+        Intent intent = new Intent(MainActivity.this, DetailActivity.class);
+        intent.putExtra("location", location);
+        intent.putExtra("operator", operator);
+        intent.putExtra("number", number);
+        startActivity(intent);
+        startActivityAnimation(MainActivity.this);
+    }
+
     private String validate(String number) {
         String telcomPatternY = "^134[0-8]\\d{7}$|^(?:13[5-9]|147|15[0-27-9]|178|18[2-478])\\d{8}$";
         String telcomPatternU = "^(?:13[0-2]|145|15[56]|176|18[56])\\d{8}";
@@ -109,4 +115,46 @@ public class MainActivity extends BaseActivity {
         }
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(final Menu menu) {
+        getMenuInflater().inflate(R.menu.home, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(final MenuItem item) {
+        Intent intent = new Intent();
+        intent.setClass(MainActivity.this, SelectNumberActivity.class);
+        switch (item.getItemId()) {
+            case R.id.select_contact:
+                intent.putExtra(SelectNumberActivity.SELECT_TYPE, 0);
+                startActivityForResult(intent, 0);
+
+                break;
+            case R.id.select_calllog:
+                intent.putExtra(SelectNumberActivity.SELECT_TYPE, 1);
+                startActivityForResult(intent, 0);
+
+                break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        switch (resultCode) {
+            case RESULT_OK:
+                if (requestCode == 0) {
+                    String number = data.getStringExtra("NUMBER");
+                    mEditText.setText(number);
+                    execute();
+                }
+                break;
+            default:
+                break;
+        }
+    }
 }

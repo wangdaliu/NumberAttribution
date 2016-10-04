@@ -60,6 +60,16 @@ public class DetailActivity extends BaseActivity {
                 startActivity(intent);
 
                 break;
+
+            case R.id.add_to_contact:
+                Intent it = new Intent(Intent.ACTION_INSERT, Uri.withAppendedPath(
+                        Uri.parse("content://com.android.contacts"), "contacts"));
+                it.setType("vnd.android.cursor.dir/person");
+                it.putExtra(android.provider.ContactsContract.Intents.Insert.PHONE,
+                        mNumber);
+                startActivity(it);
+
+                break;
         }
         return super.onOptionsItemSelected(item);
     }
